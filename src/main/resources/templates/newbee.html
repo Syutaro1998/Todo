@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"><head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<h1>登録をしよう！！！</h1>
+	<span style="color: red;" th:text="${message}"></span>
+	
+	
+		<form action="/newbee" method="post">
+			メールアドレス: 	<input type="text" name="name"><br>
+	    	パスワード ：	<input type="text" name="pass">
+			<br>
+			<br>
+			<input type="submit" value="とうろく！！！！！！！">
+		</form>
+		<br>
+		アカウントをお持ちの方は<a href="/">こちら</a>
+
+</body>
+</html>

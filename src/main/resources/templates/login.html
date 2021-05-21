@@ -7,15 +7,17 @@
 <body>
 	<h1>ログインをしよう</h1>
 	<span style="color: red;" th:text="${message}"></span>
-	<p>
+	
+	
 		<form action="/login" method="post">
 			メールアドレス: 	<input type="text" name="name"><br>
 	    	パスワード ：	<input type="text" name="pass">
-	
 			<br>
 			<br>
 			<input type="submit" value="ろぐいん！！！！！！！">
 		</form>
-	</p>
+		
+		新規登録の方は<a href="/newbee">こちら</a>
+
 </body>
 </html>

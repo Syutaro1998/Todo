@@ -1,6 +1,9 @@
 package com.example.demo;
 
+import java.util.List;
 import java.util.Optional;
+
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,7 +18,13 @@ import org.springframework.web.servlet.ModelAndView;
 public class AccountController {
 	
 	@Autowired
-	UsersRepository userRepository;
+	HttpSession session;
+	
+	@Autowired
+	UsersRepository usersRepository;
+	
+	@Autowired
+	TasksRepository tasksRepository;
 	
 	@RequestMapping("/")
 	public String login() {
@@ -29,9 +38,16 @@ public class AccountController {
 			ModelAndView mv
 			) {
 		
-		Optional<Users> user = userRepository.findByUserNameAndUserPass(name,pass);
+		Optional<Users> user = usersRepository.findByUserNameAndUserPass(name,pass);
 		
 		if(user.isPresent()) {
+			
+			Users user_findId = usersRepository.findByUserName(name);
+			
+			int userId = user_findId.getUserId();
+			List<Tasks> taskList =  tasksRepository.findByTaskIdOrderByTaskCodeAsc(userId);
+			mv.addObject(taskList);
+			session.setAttribute("name", name);
 			mv.setViewName("task");
 		}else {
 			mv.addObject("message","ID,パスワードが間違ってるよ");
@@ -43,6 +59,25 @@ public class AccountController {
 	@RequestMapping("/logout")
 	public String logout() {
 		return "login";
+	}
+	
+	@RequestMapping("/newbee")
+	public String newbee() {
+
+		return "newbee";
+	}
+	
+	@RequestMapping(value="/newbee",method=RequestMethod.POST)
+	public ModelAndView newbee(
+			@RequestParam("name") String name,
+			@RequestParam("pass") String pass,
+			ModelAndView mv) {
+		Users user = new Users(name,pass);
+		usersRepository.saveAndFlush(user);
+		session.setAttribute("name", name);
+		
+		mv.setViewName("task");
+		return mv;
 	}
 	
 

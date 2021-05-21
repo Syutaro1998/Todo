@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>追加画面</title>
+</head>
+<body>
+    <h1>追加画面</h1>
+<a href="/retrun">戻る</a>
+
+<br>
+<br>
+<br>
+
+<form action="/add" method="POST">
+	<input type="text" name="title"><br>
+	<input type="date" name="calendar" max="9999-12-31" th:min="${hi}" ><br>
+	<textarea name="task_add" cols="60" rows="20">入力</textarea><br>
+	<input type="submit" value="追加する">
+ </form>
+ 
+</body>
+</html>
