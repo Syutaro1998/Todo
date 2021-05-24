@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name="tasks")
@@ -31,6 +32,9 @@ public class Tasks {
 	
 	@Column(name="task_flg")
 	private boolean taskFlg;
+	
+	@Transient
+	private long limited;
 
 	public Tasks() {
 	}
@@ -61,6 +65,7 @@ public class Tasks {
 		this.taskFlg = taskFlg;
 	}
 
+
 	public Integer getTaskCode() {
 		return taskCode;
 	}
@@ -83,6 +88,14 @@ public class Tasks {
 
 	public boolean isTaskFlg() {
 		return taskFlg;
+	}
+	
+	public void setLimited(long limited) {
+		this.limited = limited;
+	}
+
+	public long getLimited() {
+		return limited;
 	}
 
 }

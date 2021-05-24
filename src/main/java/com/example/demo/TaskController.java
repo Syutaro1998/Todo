@@ -1,9 +1,9 @@
 package com.example.demo;
 
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -30,16 +30,26 @@ public class TaskController {
 	@Autowired
 	UsersRepository usersRepository; 
 	
+	boolean task = false;
+	
 
 	@RequestMapping("/task")
 	public   ModelAndView task(ModelAndView mv) {
 		String name = (String) session.getAttribute("name");
 		Users user = usersRepository.findByUserName(name);
-		
+				
 		int userId = user.getUserId();
 		List<Tasks> taskList =  tasksRepository.findByTaskIdOrderByTaskCodeAsc(userId);
 		
-		mv.addObject(taskList);
+		LocalDateTime dateTo = LocalDateTime.now();
+		
+		 for(Tasks task : taskList) {
+	        	Timestamp time1 = (Timestamp) task.getTaskDeadline();
+	        	LocalDateTime dateFrom = time1.toLocalDateTime();
+	        	int limited = (int) ChronoUnit.DAYS.between(dateTo,dateFrom);
+	        	task.setLimited(limited);
+	        }
+		mv.addObject("taskList",taskList);
 		return mv;
 	}
 	
@@ -66,18 +76,27 @@ public class TaskController {
 		boolean flg = false;
 		
 		try {
-			SimpleDateFormat d1 = new SimpleDateFormat("yyyy-MM-dd");
-			Date a = d1.parse(calendar);
 			
-			
+			calendar = calendar.toString() + " 00:00:00";
+			Timestamp day = Timestamp.valueOf(calendar);
+
 			String name = (String) session.getAttribute("name");
 			Users user = usersRepository.findByUserName(name);
 			
 			int userId = user.getUserId();
-			Tasks tasks = new Tasks(add,a,flg,title,userId);
+			Tasks tasks = new Tasks(add , day , flg , title , userId);
 			tasksRepository.saveAndFlush(tasks);
 			List<Tasks> taskList =  tasksRepository.findByTaskIdOrderByTaskCodeAsc(userId);
-			mv.addObject(taskList);
+			
+			LocalDateTime dateTo = LocalDateTime.now();
+
+			 for(Tasks task : taskList) {
+		        	Timestamp time1 = (Timestamp) task.getTaskDeadline();
+		        	LocalDateTime dateFrom = time1.toLocalDateTime();
+		        	int limited = (int) ChronoUnit.DAYS.between(dateTo,dateFrom);
+		        	task.setLimited(limited);
+		        }
+			mv.addObject("taskList",taskList);
 			
 			mv.setViewName("redirect:/task");
 		}catch(Exception e){
@@ -92,9 +111,23 @@ public class TaskController {
 	public ModelAndView return1(
 			ModelAndView mv
 			) {
+		String name = (String) session.getAttribute("name");
+		Users user = usersRepository.findByUserName(name);
+				
+		int userId = user.getUserId();
+		List<Tasks> taskList =  tasksRepository.findByTaskIdOrderByTaskCodeAsc(userId);
 		
-		List<Tasks> taskList =  tasksRepository.findAll();
-		mv.addObject(taskList);
+		LocalDateTime dateTo = LocalDateTime.now();
+
+		for(Tasks tasks : taskList) {
+        	Timestamp time1 = (Timestamp) tasks.getTaskDeadline();
+        	LocalDateTime dateFrom = time1.toLocalDateTime();
+        	int limited = (int) ChronoUnit.DAYS.between(dateTo,dateFrom);
+        	tasks.setLimited(limited);
+        	//System.out.println(ChronoUnit.DAYS.between(dateTo,dateFrom));
+        }
+		 
+		mv.addObject("taskList",taskList);
 		mv.setViewName("task");
 		
 		return mv;
@@ -104,7 +137,7 @@ public class TaskController {
 	public ModelAndView edit(
 			@PathVariable(name="taskCode") int taskCode,
 			ModelAndView mv) {
-		Date day = new Date();
+		 Date day = new Date();
 		 SimpleDateFormat d1 = new SimpleDateFormat("yyyy-MM-dd");
 		 String display = d1.format(day);
 		 Optional<Tasks> taskList = tasksRepository.findById(taskCode);
@@ -131,24 +164,35 @@ public class TaskController {
 		
 		try {
 			int priocode = Integer.parseInt(pricode);
-		SimpleDateFormat d1 = new SimpleDateFormat("yyyy-MM-dd");
-		Date a = d1.parse(calendar);
-		Tasks tasks = new Tasks(priocode,title,edit,a,flg);
-		tasksRepository.saveAndFlush(tasks);
-		List<Tasks> taskList =  tasksRepository.findAll();
-		mv.addObject(taskList);
+			SimpleDateFormat d1 = new SimpleDateFormat("yyyy-MM-dd");
+			Date a = d1.parse(calendar);
+			Tasks tasks = new Tasks(priocode,title,edit,a,flg);
+			tasksRepository.saveAndFlush(tasks);
+			String name = (String) session.getAttribute("name");
+			Users user = usersRepository.findByUserName(name);
+			
+			int userId = user.getUserId();
+			List<Tasks> taskList =  tasksRepository.findByTaskIdOrderByTaskCodeAsc(userId);
+			
+			LocalDateTime dateTo = LocalDateTime.now();
+			
+			 for(Tasks task: taskList) {
+		        	Timestamp time1 = (Timestamp) task.getTaskDeadline();
+		        	LocalDateTime dateFrom = time1.toLocalDateTime();
+		        	int limited = (int) ChronoUnit.DAYS.between(dateTo,dateFrom);
+		        	task.setLimited(limited);
+		        	//System.out.println(ChronoUnit.DAYS.between(dateTo,dateFrom));
+		        }
+			mv.addObject("taskList",taskList);
+			
+			mv.setViewName("task");
+			}catch(Exception e){
+				e.printStackTrace();
+				mv.setViewName("/login");
+			}
 		
-		for(Tasks task : taskList) {
-		System.out.println(task.getTaskDeadline());
+			return mv;
 		}
-		mv.setViewName("task");
-		}catch(Exception e){
-			e.printStackTrace();
-			mv.setViewName("/login");
-		}
-		
-		return mv;
-	}
 	
 	@RequestMapping("/sort_down")
 	public ModelAndView down(
@@ -156,13 +200,54 @@ public class TaskController {
 			) {
 		String name = (String) session.getAttribute("name");
 		Users user = usersRepository.findByUserName(name);
-		
+				
 		int userId = user.getUserId();
+		List<Tasks> taskList =  tasksRepository.findByTaskIdOrderByTaskCodeAsc(userId);
 		
-		List<Tasks> taskList = tasksRepository.findByTaskIdOrderByTaskCodeAsc(userId);
+		LocalDateTime dateTo = LocalDateTime.now();
+		
+		 for(Tasks task : taskList) {
+	        	Timestamp time1 = (Timestamp) task.getTaskDeadline();
+	        	LocalDateTime dateFrom = time1.toLocalDateTime();
+	        	int limited = (int) ChronoUnit.DAYS.between(dateTo,dateFrom);
+	        	task.setLimited(limited);
+	        	//System.out.println(ChronoUnit.DAYS.between(dateTo,dateFrom));
+	        }
+		mv.addObject("taskList",taskList);
+		
+		
 		mv.addObject(taskList);
 		mv.setViewName("task");
 		
+		return mv;
+	}
+	
+	@RequestMapping("/delete")
+	public ModelAndView delete(
+			@RequestParam(name="taskCode") int taskCode,
+			ModelAndView mv) {
+		
+		tasksRepository.deleteByTaskCode(taskCode);
+		
+		String name = (String) session.getAttribute("name");
+		Users user = usersRepository.findByUserName(name);
+		
+		Tasks tasks = new Tasks();
+		
+		int userId = user.getUserId();
+		List<Tasks> taskList =  tasksRepository.findByTaskIdOrderByTaskCodeAsc(userId);
+		
+		LocalDateTime dateTo = LocalDateTime.now();
+		
+		 for(Tasks obj : taskList) {
+	        	Timestamp time1 = (Timestamp) obj.getTaskDeadline();
+	        	LocalDateTime dateFrom = time1.toLocalDateTime();
+	        	int limited = (int) ChronoUnit.DAYS.between(dateTo,dateFrom);
+	        	tasks.setLimited(limited);
+	        }
+		mv.addObject("taskList",taskList);
+		
+		 mv.setViewName("task");
 		return mv;
 	}
 }

@@ -19,8 +19,8 @@
 	<input type="submit" value="編集を送る">
 </form>
 
-<form>
-	<input type="hidden" name="delete"><br>
+<form action="/delete" method="post">
+	<input type="hidden"  th:value="${session.task.taskCode}">
 	<input type="submit" value="削除">
 </form>
 

@@ -1,5 +1,8 @@
 package com.example.demo;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
 
@@ -46,7 +49,18 @@ public class AccountController {
 			
 			int userId = user_findId.getUserId();
 			List<Tasks> taskList =  tasksRepository.findByTaskIdOrderByTaskCodeAsc(userId);
-			mv.addObject(taskList);
+			
+			LocalDateTime dateTo = LocalDateTime.now();
+
+			 for(Tasks tasks : taskList) {
+		        	Timestamp time1 = (Timestamp) tasks.getTaskDeadline();
+		        	LocalDateTime dateFrom = time1.toLocalDateTime();
+		        	int limited = (int) ChronoUnit.DAYS.between(dateTo,dateFrom);
+		        	tasks.setLimited(limited);
+		        	//System.out.println(ChronoUnit.DAYS.between(dateTo,dateFrom));
+		        }
+
+			mv.addObject( "taskList",taskList);
 			session.setAttribute("name", name);
 			mv.setViewName("task");
 		}else {
