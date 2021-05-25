@@ -38,6 +38,13 @@ public class Tasks {
 
 	public Tasks() {
 	}
+	
+
+	public Tasks(Integer taskCode, boolean taskFlg) {
+		this.taskCode = taskCode;
+		this.taskFlg = taskFlg;
+	}
+
 
 	public Tasks(Integer taskCode, String taskTitle, String taskContent, Date taskDeadline, boolean taskFlg) {
 		this.taskCode = taskCode;
@@ -97,5 +104,36 @@ public class Tasks {
 	public long getLimited() {
 		return limited;
 	}
+
+
+	public void setTaskFlg(boolean b) {
+		this.taskFlg = b;
+	}
+
+
+	public void setTaskCode(Integer taskCode) {
+		this.taskCode = taskCode;
+	}
+
+
+	public void setTaskId(Integer taskId) {
+		this.taskId = taskId;
+	}
+
+
+	public void setTaskTitle(String taskTitle) {
+		this.taskTitle = taskTitle;
+	}
+
+
+	public void setTaskContent(String taskContent) {
+		this.taskContent = taskContent;
+	}
+
+
+	public void setTaskDeadline(Date taskDeadline) {
+		this.taskDeadline = taskDeadline;
+	}
+
 
 }

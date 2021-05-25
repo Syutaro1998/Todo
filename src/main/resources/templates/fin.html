@@ -1,10 +1,31 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" th:href="@{/top.css}">
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+    <meta charset="UTF-8">
+    <title>Todo</title>
 </head>
 <body>
-
+		<form  action="/logout" method="GET">
+			<input type="submit" class="button" value="ログアウト">
+		</form>	
+	<p id="name" th:text="${'こんにちは　' + session.name + '　さん'}"></p>
+	
+<hr>
+<a href="/sort_down">昇順</a><a href="/sort_lim">期限順</a><br>
+<a href="/task">現在のタスクへ</a>
+<table border="1">
+	<tr>
+		<th>NO</th><th>達成</th><th>Todo</th><th>内容</th><th>終了日</th>
+	</tr>
+		<tr th:each="task:${taskList}"  th:if="${task.taskFlg}">
+			<td th:text="${task.taskCode}">
+			<td><a th:href="'/comp/' + ${task.taskCode}" th:text="${task.taskFlg}"></a>
+			<td><a th:href="'/edit/' + ${task.taskCode}" th:text="${task.taskTitle}"></a>
+			<td th:text="${task.taskContent}"></td>			
+			
+			<td th:text="${#dates.format(task.taskDeadline, 'yyyy/MM/dd')}"></td>
+		</tr>	
+	</table>
 </body>
 </html>

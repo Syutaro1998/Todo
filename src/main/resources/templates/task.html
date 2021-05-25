@@ -1,24 +1,26 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" th:href="@{../top.css}">
 <head>
-	<link rel="stylsheet" th:href="@{/stylesheet.css}">
     <meta charset="UTF-8">
     <title>Todo</title>
 </head>
 <body>
-	<form action="/logout" method="GET">
-		<p th:text="${'こんにちは　' + session.name + '　さん'}"></p><input type="submit" value="ログアウト">
-	</form>
+		<form  action="/logout" method="GET">
+			<input type="submit" class="button" value="ログアウト">
+		</form>	
+	<p id="name" th:text="${'こんにちは　' + session.name + '　さん'}"></p>
+		
 <hr>
-<a href="/sort_down">昇順</a><br>
-<a href="/add">新規追加</a>
+<a href="/sort_down">昇順</a><a href="/sort_lim">期限順</a><br>
+<a href="/add">新規追加</a> <a href="/fin">	終了したタスクへ</a>
 <table border="1">
 	<tr>
 		<th>NO</th><th>達成</th><th>Todo</th><th>内容</th><th>終了日</th><th>日数</th>
 	</tr>
-		<tr th:each="task:${taskList}">
+		<tr th:each="task:${taskList}"  th:unless="${task.taskFlg}"  th:if="${task.limited ge 0}">
 			<td th:text="${task.taskCode}">
-			<td th:text="${task.taskFlg}">
+			<td><a th:href="'/comp/' + ${task.taskCode}" th:text="${task.taskFlg}"></a>
 			<td><a th:href="'/edit/' + ${task.taskCode}" th:text="${task.taskTitle}"></a>
 			<td th:text="${task.taskContent}"></td>			
 			

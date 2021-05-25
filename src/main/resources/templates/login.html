@@ -1,23 +1,24 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" th:href="@{../stylesheet.css}">
 <head>
     <meta charset="UTF-8">
     <title>ログイン画面</title>
 </head>
 <body>
-	<h1>ログインをしよう</h1>
-	<span style="color: red;" th:text="${message}"></span>
-	
-	
+<h1>ToDo List</h1>	
+<div class="box">	
 		<form action="/login" method="post">
+		<p>ログイン</p>
 			メールアドレス: 	<input type="text" name="name"><br>
-	    	パスワード ：	<input type="text" name="pass">
+	    	パスワード ：	<input type="password" name="pass"><br>
+			<span style="color: red;" th:text="${message}"></span>
 			<br>
 			<br>
-			<input type="submit" value="ろぐいん！！！！！！！">
+			<input class="decorated-btn click-down"  type="submit" value="次に進む">
 		</form>
-		
-		新規登録の方は<a href="/newbee">こちら</a>
-
+</div>
+<p>ToDoListは初めてですか？</p>
+	<a href="/newbee" class="btn btn-border">ToDoアカウントを作成する</a>
 </body>
 </html>

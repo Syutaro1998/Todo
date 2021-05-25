@@ -15,12 +15,12 @@
 	<input type="text" name="title" th:value="${session.task.taskTitle}"><br>
 	<input type="date" name="calendar" max="9999-12-31" th:min="${hi}" ><br>
 	<textarea name="job" cols="60" rows="20"  th:text="${session.task.taskContent}"></textarea><br>
-	<input type="hidden" name="pricode" th:value="${session.task.taskCode}">
+	<input type="hidden" name="taskCode" th:value="${session.task.taskCode}">
 	<input type="submit" value="編集を送る">
 </form>
 
 <form action="/delete" method="post">
-	<input type="hidden"  th:value="${session.task.taskCode}">
+	<input type="hidden"  name="delete" th:value="${session.task.taskCode}">
 	<input type="submit" value="削除">
 </form>
 

@@ -86,11 +86,39 @@ public class AccountController {
 			@RequestParam("name") String name,
 			@RequestParam("pass") String pass,
 			ModelAndView mv) {
-		Users user = new Users(name,pass);
-		usersRepository.saveAndFlush(user);
-		session.setAttribute("name", name);
 		
-		mv.setViewName("task");
+		String message1 = "";
+		String message2 = "";
+		
+		if(name.isEmpty()) {
+			message1 = "名前が未入力です。";
+		}else {
+			List<Users> users = usersRepository.findAll();
+			for(Users user : users) {
+				if(user.getUserName().equals(name))
+					message1 = "そのアカウント名は既に使われています。";
+			}
+		}
+		if(pass.isEmpty()) {
+			message2 = "パスワードが未入力です。";
+		}else {
+			
+		}
+		
+		if(!message1.isEmpty() ||
+				!message2.isEmpty()) {
+			mv.addObject("message1", message1);
+			mv.addObject("message2", message2);
+			mv.setViewName("newbee");
+			return mv;
+		}else {
+			Users user = new Users(name,pass);
+			usersRepository.saveAndFlush(user);
+			session.setAttribute("name", name);
+			
+			mv.setViewName("task");
+		}
+		
 		return mv;
 	}
 	

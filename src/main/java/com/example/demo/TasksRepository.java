@@ -12,4 +12,6 @@ public interface TasksRepository extends JpaRepository<Tasks,Integer> {
 
 	void deleteByTaskCode(int taskCode);
 
+	List<Tasks> findByTaskIdOrderByTaskDeadline(int userId);
+
 }
