@@ -1,32 +1,45 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<link rel="stylesheet" th:href="@{../top.css}">
 <head>
+	<link rel="stylesheet" th:href="@{../top.css}">
     <meta charset="UTF-8">
     <title>Todo</title>
 </head>
 <body>
-		<form  action="/logout" method="GET">
-			<input type="submit" class="button" value="ログアウト">
-		</form>	
-	<p id="name" th:text="${'こんにちは　' + session.name + '　さん'}"></p>
-		
-<hr>
-<a href="/sort_down">昇順</a><a href="/sort_lim">期限順</a><br>
-<a href="/add">新規追加</a> <a href="/fin">	終了したタスクへ</a>
-<table border="1">
-	<tr>
-		<th>NO</th><th>達成</th><th>Todo</th><th>内容</th><th>終了日</th><th>日数</th>
-	</tr>
-		<tr th:each="task:${taskList}"  th:unless="${task.taskFlg}"  th:if="${task.limited ge 0}">
-			<td th:text="${task.taskCode}">
-			<td><a th:href="'/comp/' + ${task.taskCode}" th:text="${task.taskFlg}"></a>
-			<td><a th:href="'/edit/' + ${task.taskCode}" th:text="${task.taskTitle}"></a>
-			<td th:text="${task.taskContent}"></td>			
-			
+<div class="container">
+<h1>ToDoList</h1>
+<p id="sub">～予定一覧～</p>
+</div>
+<div id="name1">
+<span th:text="${session.name + 'さんこんにちは'}"></span>
+</div>
+	<div class="nav-wrap">
+  <div class="scroll-nav">
+    <ul>
+   	  <li id="add"><a href="/add">新規追加</a></li>
+      <li><a href="/task">ホーム</a></li>
+      <li><a href="/sort_lim">期限順にソート</a></li>
+      <li><a href="/sort_down">昇順にソート</a></li>
+      <li><a href="/fin">終了したタスクへ</a></li>
+      <li><a href="/logout">ログアウト</a></li>
+    </ul>
+  </div>
+  <div class="next-btn"></div>
+</div>
+<div id="tbl">
+	<table border="1">
+		<tr>
+			<th class="sm">NO</th><th class="sm">達成</th><th>Todo</th><th id="bg">内容</th><th>終了日</th><th class="sm">日数</th>
+		</tr>
+		<tr th:each="task,taskStat:${taskList}"  th:unless="${task.taskFlg}"  th:if="${task.limited ge 0}">
+			<td class="sm" id="cen" th:text="${taskStat.count}">
+			<td class="ho" id="cen"><a class="sm" th:href="'/comp/' + ${task.taskCode}" th:text="${task.taskFlg}"></a>
+			<td class="ho"><a th:href="'/edit/' + ${task.taskCode}" th:text="${task.taskTitle}"></a>
+			<td id="bg" th:text="${task.taskContent}"></td>
 			<td th:text="${#dates.format(task.taskDeadline, 'yyyy/MM/dd')}"></td>
-			<td th:text="${task.limited}">
+			<td class="sm" id="cen" th:text="${task.limited}">
 		</tr>	
 	</table>
+</div>
 </body>
 </html>

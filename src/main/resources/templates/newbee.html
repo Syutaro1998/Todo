@@ -7,9 +7,10 @@
 <body>
 <h1>ToDo List</h1>	
 <div class="box">	
-		<form action="/newbee" method="post">
-			メールアドレス: 	<input type="text" name="name"><br>
-	    	パスワード ：	<input type="password" name="pass">
+		<form action="/newbee"  method="post">
+		<p id="login">sign up</p>
+			<input id="textbox" type="text" name="name" placeholder="お名前"><br>
+	    	<input id="textbox" type="password" name="pass" placeholder="パスワード"><br>
 			<br>
 			<br>
 			<span style="color: red;" th:text="${message1}"></span>

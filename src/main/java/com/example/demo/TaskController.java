@@ -32,12 +32,17 @@ public class TaskController {
 	
 	boolean flg = false;
 	
+	int[] num = {1,2,3,4,5,6,7,8,9,10};
+	
+	
 
 	@RequestMapping("/task")
 	public   ModelAndView task(ModelAndView mv) {
 		
 		String name = (String) session.getAttribute("name");
 		Users user = usersRepository.findByUserName(name);
+		
+		session.setAttribute("num", num[0]);
 				
 		int userId = user.getUserId();
 		List<Tasks> taskList =  tasksRepository.findByTaskIdOrderByTaskCodeAsc(userId);
@@ -207,11 +212,14 @@ public class TaskController {
 		Optional<Tasks> task1 =  tasksRepository.findById(taskCode);
 		
 		if(task1.isPresent()) {
-			task1.get().setTaskFlg(true);
-			tasksRepository.saveAndFlush(task1.get());
+			if(task1.get().isTaskFlg()) {
+				task1.get().setTaskFlg(false);
+				tasksRepository.saveAndFlush(task1.get());
+			}else {
+				task1.get().setTaskFlg(true);
+				tasksRepository.saveAndFlush(task1.get());
+			}
 		}
-				
-		
 		String name = (String) session.getAttribute("name");
 		Users user = usersRepository.findByUserName(name);
 		

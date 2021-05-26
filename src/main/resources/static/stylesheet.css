@@ -11,7 +11,11 @@ html {
 	text-align: center;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
-  font-size: 62.5%;/*rem算出をしやすくするために*/
+  font-size: 62.5%;
+}
+
+body{
+  margin-top: 55px;
 }
 
 .btn,
@@ -96,5 +100,13 @@ a.btn-border:hover:after {
   width: 100%;
 }
 
+#textbox{
+  margin-top: 4%;
+}
+
+#login{
+  font-size: 20px;
+  margin: 10px;
+}
 
 

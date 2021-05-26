@@ -106,8 +106,8 @@ public class Tasks {
 	}
 
 
-	public void setTaskFlg(boolean b) {
-		this.taskFlg = b;
+	public void setTaskFlg(boolean taskFlg) {
+		this.taskFlg = taskFlg;
 	}
 
 
