@@ -1,28 +1,29 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" th:href="@{/inedit.css}">
 <head>
     <meta charset="UTF-8">
     <title>編集画面</title>
 </head>
-<h1>ToDoList</h1><p>画面編集</p>
-<a href="/retrun">戻る</a>
+<div class="container">
+<h1>ToDoList</h1><p>～編集画面～</p>
+</div>
+<a href="/retrun">タスク一覧へ戻る </a>
+<br>
+<br>
+<br>
 
-<br>
-<br>
-<br>
+<div id="cen">
 
 <form action="/task_edit" method="POST">
-	<input type="text" name="title" th:value="${session.task.taskTitle}"  required><br>
-	<input type="date" name="calendar" max="9999-12-31" th:min="${hi}"  required><br>
-	<textarea name="job" cols="60" rows="20"  th:text="${session.task.taskContent}"  required></textarea><br>
+	<input type="text" name="title" th:value="${session.task.taskTitle}"  placeholder="タイトルを入力してください" required><br>
+	<input type="date" name="calendar" max="9999-12-31" th:min="${hi}" th:value="${session.deadline.#dates.format(new java.util.Date(),'yyyy/MM/dd')}"  required><br>
+	<textarea name="job" cols="60" rows="20"  th:text="${session.task.taskContent}"  placeholder="内容を入力してください" required></textarea><br>
 	<input type="hidden" name="taskCode" th:value="${session.task.taskCode}">
-	<input type="submit" value="編集を送る">
+	<input  type="submit" value="編集を送る">
+	<a class="btn btn--white btn--circle" id="pa" th:href="'/delete/' + ${session.task.taskCode}">削除</a>
 </form>
 
-<form action="/delete" method="post">
-	<input type="hidden"  name="delete" th:value="${session.task.taskCode}">
-	<input type="submit" value="削除">
-</form>
-
+</div>
 </body>
 </html>

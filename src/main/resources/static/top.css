@@ -105,4 +105,12 @@ table,th,td {
 .container {
   display: flex;
   align-items: center;
+  font-size:20px;
+}
+
+
+#all{
+	padding:0 100px;
+	display: flex;
+	align-items: center;
 }

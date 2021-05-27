@@ -8,7 +8,7 @@
 <body>
 <div class="container">
 <h1>ToDoList</h1>
-<p id="sub">～予定一覧～</p>
+<p>～予定一覧～</p>
 </div>
 <div id="name1">
 <span th:text="${session.name + 'さんこんにちは'}"></span>
@@ -33,7 +33,7 @@
 		</tr>
 		<tr th:each="task,taskStat:${taskList}"  th:unless="${task.taskFlg}"  th:if="${task.limited ge 0}">
 			<td class="sm" id="cen" th:text="${taskStat.count}">
-			<td class="ho" id="cen"><a class="sm" th:href="'/comp/' + ${task.taskCode}" th:text="${task.taskFlg}"></a>
+			<td class="ho" id="cen"><a class="sm" th:href="'/comp/' + ${task.taskCode}">[['達成']]</a>
 			<td class="ho"><a th:href="'/edit/' + ${task.taskCode}" th:text="${task.taskTitle}"></a>
 			<td id="bg" th:text="${task.taskContent}"></td>
 			<td th:text="${#dates.format(task.taskDeadline, 'yyyy/MM/dd')}"></td>

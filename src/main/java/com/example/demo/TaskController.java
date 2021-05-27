@@ -30,20 +30,17 @@ public class TaskController {
 	@Autowired
 	UsersRepository usersRepository; 
 	
-	boolean flg = false;
-	
-	int[] num = {1,2,3,4,5,6,7,8,9,10};
-	
+	boolean flg = false;	
 	
 
 	@RequestMapping("/task")
 	public   ModelAndView task(ModelAndView mv) {
 		
+		try {
+		
 		String name = (String) session.getAttribute("name");
 		Users user = usersRepository.findByUserName(name);
-		
-		session.setAttribute("num", num[0]);
-				
+					
 		int userId = user.getUserId();
 		List<Tasks> taskList =  tasksRepository.findByTaskIdOrderByTaskCodeAsc(userId);
 		
@@ -56,12 +53,18 @@ public class TaskController {
 	        	task.setLimited(limited);
 	        }
 		mv.addObject("taskList",taskList);
+		}catch(Exception e){
+			e.printStackTrace();
+			mv.setViewName("/login");
+		}
 		return mv;
 	}
 	
 	
 	@RequestMapping("/add")
 	public ModelAndView add(ModelAndView mv) {
+		
+		try {
 		Date day = new Date();
 		 SimpleDateFormat d1 = new SimpleDateFormat("yyyy-MM-dd");
 		 String display = d1.format(day);
@@ -69,6 +72,10 @@ public class TaskController {
 		 mv.addObject("hi",display);
 		 System.out.println(display);
 		 mv.setViewName("add");
+		}catch(Exception e){
+			e.printStackTrace();
+			mv.setViewName("/login");
+		}
 		return mv;
 	}
 	
@@ -117,6 +124,8 @@ public class TaskController {
 	public ModelAndView return1(
 			ModelAndView mv
 			) {
+		
+		try {
 		String name = (String) session.getAttribute("name");
 		Users user = usersRepository.findByUserName(name);
 				
@@ -135,6 +144,10 @@ public class TaskController {
 		 
 		mv.addObject("taskList",taskList);
 		mv.setViewName("task");
+		}catch(Exception e){
+			e.printStackTrace();
+			mv.setViewName("/login");
+		}
 		
 		return mv;
 	}
@@ -209,6 +222,7 @@ public class TaskController {
 	public ModelAndView comp(
 			@PathVariable(name="taskCode") int taskCode,
 			ModelAndView mv) {		
+		try {
 		Optional<Tasks> task1 =  tasksRepository.findById(taskCode);
 		
 		if(task1.isPresent()) {
@@ -238,6 +252,10 @@ public class TaskController {
 		mv.addObject("taskList",taskList);
 		 
 		 mv.setViewName("redirect:/task");
+		}catch(Exception e){
+			e.printStackTrace();
+			mv.setViewName("/login");
+		}
 		return mv;
 	}
 	
@@ -246,6 +264,7 @@ public class TaskController {
 	public ModelAndView down(
 			ModelAndView mv
 			) {
+		try {
 		String name = (String) session.getAttribute("name");
 		Users user = usersRepository.findByUserName(name);
 				
@@ -264,14 +283,19 @@ public class TaskController {
 		mv.addObject("taskList",taskList);
 		
 		mv.setViewName("task");
+		}catch(Exception e){
+			e.printStackTrace();
+			mv.setViewName("/login");
+		}
 		
 		return mv;
 	}
 	
-	@RequestMapping("/delete")
+	@RequestMapping("/delete/{taskCode}")
 	public ModelAndView delete(
-			@RequestParam(name="delete") int taskCode,
+			@PathVariable(name="taskCode") int taskCode,
 			ModelAndView mv) {
+		try {
 		
 		tasksRepository.deleteById(taskCode);
 		
@@ -292,6 +316,10 @@ public class TaskController {
 		mv.addObject("taskList",taskList);
 		
 		 mv.setViewName("redirect:/task");
+		}catch(Exception e){
+			e.printStackTrace();
+			mv.setViewName("/login");
+		}
 		return mv;
 	}
 	
@@ -299,6 +327,7 @@ public class TaskController {
 	public ModelAndView sort_lim(
 			ModelAndView mv
 			) {
+		try {
 		String name = (String) session.getAttribute("name");
 		Users user = usersRepository.findByUserName(name);
 				
@@ -317,6 +346,10 @@ public class TaskController {
 		mv.addObject("taskList",taskList);
 		
 		mv.setViewName("task");
+		}catch(Exception e){
+			e.printStackTrace();
+			mv.setViewName("/login");
+		}
 		
 		return mv;
 	}
@@ -325,6 +358,7 @@ public class TaskController {
 	public ModelAndView fin(
 			ModelAndView mv
 			) {
+		try {
 		String name = (String) session.getAttribute("name");
 		Users user = usersRepository.findByUserName(name);
 				
@@ -332,6 +366,10 @@ public class TaskController {
 		List<Tasks> taskList =  tasksRepository.findByTaskIdOrderByTaskCodeAsc(userId);
 		mv.addObject("taskList",taskList);
 		mv.setViewName("fin");
+		}catch(Exception e){
+			e.printStackTrace();
+			mv.setViewName("/login");
+		}
 		return mv;
 	}
 	

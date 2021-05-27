@@ -1,23 +1,28 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" th:href="@{/inedit.css}">
 <head>
     <meta charset="UTF-8">
     <title>追加画面</title>
 </head>
 <body>
-<h1>ToDoList</h1><p>~追加画面~</p>
-<a href="/retrun">戻る</a>
+<div class="container">
+<h1>ToDoList</h1>
+<p>～追加画面～</p>
+</div>
+<a href="/retrun">タスク一覧へ戻る</a>
 
 <br>
 <br>
 <br>
+<div id="box">
 
 <form action="/add" method="POST">
-	<input type="text" name="title"  required><br>
+	<input type="text" name="title"  placeholder="タイトルを入力してください" required><br>
 	<input type="date" name="calendar" max="9999-12-31" th:min="${hi}"  required><br>
-	<textarea name="task_add" cols="60" rows="20"  required>入力</textarea><br>
+	<textarea name="task_add" cols="60" rows="20" placeholder="内容を入力してください" required></textarea><br>
 	<input type="submit" value="追加する">
  </form>
- 
+ </div>
 </body>
 </html>
