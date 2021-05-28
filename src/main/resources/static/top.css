@@ -114,3 +114,7 @@ table,th,td {
 	display: flex;
 	align-items: center;
 }
+
+p{
+	padding-left:10px;
+}

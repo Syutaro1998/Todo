@@ -79,5 +79,14 @@ a.btn--circle:hover {
 }
 
 #pa{
-margin-left:250px
-	}
+	margin-left:250px
+}
+	
+p{
+	padding-left:10px;
+}
+
+#cen{
+	
+	margin-left:35%;
+}
