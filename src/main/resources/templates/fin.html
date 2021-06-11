@@ -10,25 +10,20 @@
 <h1>ToDoList</h1>
 <p>～終了したタスク～</p>
 </div>
-	
-	<p id="name" th:text="${session.name + '　さん'}"></p>
-	<form  action="/logout" method="GET">
-			<input type="submit" class="button" value="ログアウト">
-		</form>	
-	
+	<p id="name1" th:text="${session.name + '　さん'}"></p>
 <hr>
 <a href="/task">現在のタスクへ</a>
 <table border="1">
 	<tr>
-		<th class="sm">達成</th><th>Todo</th><th id="bg">内容</th><th>終了日</th><th class="sm">削除</th>
+		<th class="sm">達成</th><th>タイトル</th><th id="bg">内容</th><th>終了日</th><th class="sm">削除</th>
 	</tr>
 		<tr th:each="task:${taskList}"  th:if="${task.taskFlg}">
 			<td class="ho" id="cen"><a class="sm" th:href="'/comp/' + ${task.taskCode}">戻す</a>
-			<td class="ho" th:text="${task.taskTitle}">
+			<td th:text="${task.taskTitle}">
 			<td id="bg" th:text="${task.taskContent}"></td>			
 			
 			<td th:text="${#dates.format(task.taskDeadline, 'yyyy/MM/dd')}"></td>
-			<td>
+			<td  class="ho">
 				<a th:href="'/delete/' + ${task.taskCode}">削除</a>
 			</td>
 		</tr>	
